@@ -59,10 +59,13 @@ contact_list::number_t get_number_by_name(storage& contacts, std::string_view na
  * Return a string representing the contact list.
  */
 std::string to_string(const storage& contacts){
-    size_t store_size = contact_list::size(contacts);
-    for(int i=0; i<store_size; i++){
-        std::cout << contacts.names.at(i) <<  " - " << contacts.numbers.at(i) << "\n";
+    size_t names_size = contacts.names.size();
+    std::stringstream buffer;
+    for(int i=0; i<names_size; i++){
+        buffer << contacts.names.at(i) <<  " - " << contacts.numbers.at(i) << "\n";
     }
+    std::string s = buffer.str();
+    return s;
 }
 
 
