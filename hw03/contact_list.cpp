@@ -44,7 +44,7 @@ contact_list::number_t get_number_by_name(storage& contacts, std::string_view na
     //std::vector<int>::iterator it = std::find(contacts.names.begin(), contacts.names.end(), name);
     int names_size = contacts.names.size();
     for(int i=0; i<names_size; i++){
-        if(contacts.names[i] == name){
+        if(contacts.names.at(i) == name){
             return contacts.numbers.at(i);
         }
         else{
@@ -78,8 +78,9 @@ bool remove(storage& contacts, std::string_view name){
     int names_size = contacts.names.size();
     std::vector<std::string> rname{};
     for(int i=0; i<names_size; i++){
-        if(contacts.names[i] == name){
+        if(contacts.names.at(i) == name){
             contacts.numbers.erase(contacts.numbers.begin()+i);
+            contacts.names.erase(contacts.names.begin()+i);
             return true;
         }
         else{
@@ -99,14 +100,13 @@ void sort(storage& contacts){
     //   };
     std::vector<std::string> copy_names = contacts.names;
     std::vector<number_t> copy_numbers = contacts.numbers;
-    std::sort(contacts.names.begin(), contacts.names.end(),[](const std::string & a, const std::string & b) -> bool
-    {return a < b;});
+    std::sort(contacts.names.begin(), contacts.names.end(),[](const std::string & a, const std::string & b) -> bool{return a < b;});
     int names_size = contacts.names.size();
     for(int i=0; i<names_size; i++){
         std::string old = copy_names.at(i);
         for(int j=0; j<names_size; j++){
-            if(contacts.names[j] == old){
-                contacts.numbers[j] = copy_numbers[i];
+            if(contacts.names.at(j) == old){
+                contacts.numbers.at(j) = copy_numbers.at(i);
             }
         }
     }
@@ -119,8 +119,8 @@ void sort(storage& contacts){
 std::string get_name_by_number(storage& contacts, number_t number){
     int number_size = contacts.numbers.size();
     for(int i=0; i<number_size; i++){
-        if(contacts.numbers[i] == number){
-            return contacts.names[i];
+        if(contacts.numbers.at(i) == number){
+            return contacts.names.at(i);
         }
     }
     return "";
