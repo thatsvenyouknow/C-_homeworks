@@ -22,13 +22,19 @@ struct Valid {};
 /*
  * ... and here
  */
-
+struct SelectStmt {};
+struct AllColumns {};
+struct NamedColumn {};
+struct MoreColumns {};
+struct FromClause {};
+struct TableName {};
 } // namespace state
 
 /// variant of all possible states of our finite machine
 /// TODO: Add all the possible states to the variant
 using State =
-    std::variant<state::Start, state::Invalid, state::Valid>;
+    std::variant<state::Start, state::Invalid, state::Valid, state::SelectStmt, state::AllColumns,
+    state::NamedColumn, state::MoreColumns, state::FromClause, state::TableName>;
 
 /// Transition from the `Start` state to the next state depending on the given
 /// token
@@ -52,6 +58,13 @@ State transition(state::Invalid, Token token);
 /*
  * ... and here
  */
+State transition(state::SelectStmt, Token token);
+State transition(state::AllColumns, Token token);
+State transition(state::NamedColumn, Token token);
+State transition(state::MoreColumns, Token token);
+State transition(state::FromClause, Token token);
+State transition(state::TableName, Token token);
+
 
 /// Our finite state machine.
 /// The initial state is `Start` and based on the given tokens it will move to
