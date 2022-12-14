@@ -15,13 +15,16 @@ auto operator<<(std::ostream& ostr, const Vector& x) -> std::ostream& {
 
 //vector constructors/functions
 Vector::Vector(std::size_t n) {
-    std::vector<float> data_(n);};
+    std::vector<float> fu(n);
+    data_ = fu;};
 
 Vector::Vector(std::size_t n, float val) {
-    std::vector<float> data_(n, val);};
+    std::vector<float> fu(n, val);
+    data_ = fu;};
 
 Vector::Vector(std::initializer_list<float> list) {
-    std::vector<float> data_{list};};
+    std::vector<float> fu{list};
+    data_ = fu;};
 
 Vector& Vector::operator=(float val) {
     this -> data_;
