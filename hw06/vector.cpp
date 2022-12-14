@@ -72,22 +72,20 @@ Vector::const_iterator Vector::cend() const {
 float& Vector::operator[](int idx) {
     if (idx>=0) {
         return Vector::data_.at(idx);
-    }
-    else {
+    }else{
         int vec_size{Vector::data_.size()};
-        int rev_idx{vec_size + idx};
-        return Vector::data_.at(rev_idx);
+        int new_idx{vec_size + idx};
+        return Vector::data_.at(new_idx);
     }
 }
 
 const float& Vector::operator[](int idx) const {
     if (idx>=0) {
         return Vector::data_.at(idx);
-    }
-    else {
+    }else{
         int vec_size{Vector::data_.size()};
-        int rev_idx{vec_size + idx};
-        return Vector::data_.at(rev_idx);
+        int new_idx{vec_size + idx};
+        return Vector::data_.at(new_idx);
     }
 }
 
@@ -95,8 +93,7 @@ float& Vector::coeff(int idx) {
     int vec_size{Vector::data_.size()};
     if (idx>=0 && idx<=vec_size) {
         return Vector::data_.at(idx);
-    }
-    else {
+    }else {
         throw std::out_of_range("idx out of bounds");
     }
 }
@@ -105,38 +102,37 @@ const float& Vector::coeff(int idx) const {
     int vec_size{Vector::data_.size()};
     if (idx>=0 && idx<=vec_size) {
         return Vector::data_.at(idx);
-    }
-    else {
+    }else {
         throw std::out_of_range("idx out of bounds");
     }
 }
 
 Vector& Vector::operator+=(float val) {
-    this -> data_;
-    for (auto &x : data_) {
-        x = x + val;
+    for (auto &x : Vector::data_) {
+        x += val;
     }
+    return *this;
 }
 
 Vector& Vector::operator-=(float val) {
-    this -> data_;
-    for (auto &x : data_) {
-        x = x - val;
+    for (auto &x : Vector::data_) {
+        x -= val;
     }
+    return *this;
 }
 
 Vector& Vector::operator*=(float val) {
-    this -> data_;
-    for (auto &x : data_) {
+    for (auto &x : Vector::data_) {
         x = x * val;
     }
+    return *this;
 }
 
 Vector& Vector::operator/=(float val) {
-    this -> data_;
-    for (auto &x : data_) {
+    for (auto &x : Vector::data_) {
         x = x / val;
     }
+    return *this;
 }
 
 Vector& Vector::operator+=(const Vector &y) {
@@ -146,6 +142,7 @@ Vector& Vector::operator+=(const Vector &y) {
             Vector::data_[i] += y[i];
             i++;}
             }
+    return *this;
 };
 
 Vector& Vector::operator-=(const Vector &y) {
@@ -155,6 +152,7 @@ Vector& Vector::operator-=(const Vector &y) {
             Vector::data_[i] -= y[i];
             i++;}
             }
+    return *this;
 };
 
 
