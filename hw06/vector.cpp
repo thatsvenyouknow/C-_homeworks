@@ -28,6 +28,7 @@ Vector& Vector::operator=(float val) {
     for (auto &x : data_) {
         x = val;
     }
+    return *this;
 };
 
 void Vector::assign(float val) {
@@ -90,7 +91,7 @@ const float& Vector::operator[](int idx) const {
 }
 
 float& Vector::coeff(int idx) {
-    int vec_size{Vector::data_.size()};
+    std::size_t vec_size{Vector::data_.size()};
     if (idx>=0 && idx<=vec_size) {
         return Vector::data_.at(idx);
     }else {
@@ -99,7 +100,7 @@ float& Vector::coeff(int idx) {
 }
 
 const float& Vector::coeff(int idx) const {
-    int vec_size{Vector::data_.size()};
+    std::size_t vec_size{Vector::data_.size()};
     if (idx>=0 && idx<=vec_size) {
         return Vector::data_.at(idx);
     }else {
