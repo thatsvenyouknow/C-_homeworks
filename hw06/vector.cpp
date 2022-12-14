@@ -75,7 +75,7 @@ float& Vector::operator[](int idx) {
         return Vector::data_.at(idx);
     }else{
         std::size_t vec_size{Vector::data_.size()};
-        int new_idx{vec_size + idx};
+        std::size_t new_idx{vec_size + idx};
         return Vector::data_.at(new_idx);
     }
 }
@@ -85,7 +85,7 @@ const float& Vector::operator[](int idx) const {
         return Vector::data_.at(idx);
     }else{
         std::size_t vec_size{Vector::data_.size()};
-        int new_idx{vec_size + idx};
+        std::size_t new_idx{vec_size + idx};
         return Vector::data_.at(new_idx);
     }
 }
