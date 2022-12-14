@@ -74,7 +74,7 @@ float& Vector::operator[](int idx) {
     if (idx>=0) {
         return Vector::data_.at(idx);
     }else{
-        int vec_size{Vector::data_.size()};
+        std::size_t vec_size{Vector::data_.size()};
         int new_idx{vec_size + idx};
         return Vector::data_.at(new_idx);
     }
@@ -84,7 +84,7 @@ const float& Vector::operator[](int idx) const {
     if (idx>=0) {
         return Vector::data_.at(idx);
     }else{
-        int vec_size{Vector::data_.size()};
+        std::size_t vec_size{Vector::data_.size()};
         int new_idx{vec_size + idx};
         return Vector::data_.at(new_idx);
     }
@@ -182,21 +182,24 @@ std::size_t argmax(const Vector &x) {
 };
 
 std::size_t non_zeros(const Vector &x) {
-    int v_len = x.size();
+    std::size_t v_len = x.size();
     return v_len - std::count(x.begin(), x.end(), 0.0);
 }
 
 float sum(const Vector &x) {
-    return std::accumulate(x.begin(), x.end(), 0.0);
+    float out = std::accumulate(x.begin(), x.end(), 0.0);
+    return out;
 };
 
 float prod(const Vector &x) {
-    return std::accumulate(x.begin(), x.end(), 1.0, std::multiplies<float>());
+    float out = std::accumulate(x.begin(), x.end(), 1.0, std::multiplies<float>());
+    return out;
 };
 
 float dot(const Vector &x, const Vector &y) {
     if (x.size() != y.size()) {throw std::invalid_argument("vectors of diff size");}
-    return std::inner_product(x.begin(), x.end(), y.begin(), 0.0);
+    float out = std::inner_product(x.begin(), x.end(), y.begin(), 0.0);
+    return out;
 };
 
 float norm(const Vector &x) {
