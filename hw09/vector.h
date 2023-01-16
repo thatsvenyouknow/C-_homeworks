@@ -172,16 +172,16 @@ Vector<T>& Vector<T>::operator=(Vector&& move) noexcept {
 
 template <typename T>
 void Vector<T>::push_back(const T& value) {
-    if (_size == _capacity) {
-        resize(_capacity * growth_factor);
+    if ((_size+1) > _capacity) {
+        Vector<T>::resize(_capacity * growth_factor);
     }
     _data[_size++] = value;
 }
 
 template <typename T>
 void Vector<T>::push_back(T&& value) {
-    if (_size == _capacity) {
-        resize(_capacity * growth_factor);
+    if ((_size+1) > _capacity) {
+        Vector<T>::resize(_capacity * growth_factor);
     }
     _data[_size++] = std::move(value);
 }
