@@ -149,8 +149,8 @@ Vector<T>& Vector<T>::operator=(const Vector& copy) {
     if (&copy == this) {
         return *this;
     }
-    _size = std.move(copy._size);
-    _capacity = std.move(copy._capacity);
+    _size = copy._size;
+    _capacity = copy._capacity;
     _data = std::make_unique<T[]>(_size);
     std::copy(copy._data.get(), copy._data.get() + _size, _data.get());
     return *this;
@@ -161,13 +161,14 @@ Vector<T>& Vector<T>::operator=(Vector&& move) noexcept {
     if (&move == this) {
         return *this;
     }
-    _size = std::move(move._size);
-    _capacity = std::move(move._capacity);
+    _data = std::move(move._data);
+    _size = move._size;
+    _capacity = move._capacity;
     //for (int i{0}; i < _size; i++)
     //    _data[i] = std::move(move._data[i]);
     //_data = std::move(move._data);
-    _data = std::make_unique<T[]>(_size);
-    std::move(move._data.get(), move._data.get() + _size, _data.get());
+    //_data = std::make_unique<T[]>(_size);
+    //std::move(move._data.get(), move._data.get() + _size, _data.get());
     move._size = 0;
     move._capacity = 0;
     return *this;
@@ -212,9 +213,9 @@ void Vector<T>::resize(size_t new_capacity) {
         return;
     }
     std::unique_ptr<T[]> new_data = std::make_unique<T[]>(new_capacity);
-    std::copy(_data.get(), _data.get() + _size, new_data.get());
+    std::move(_data.get(), _data.get() + _size, new_data.get());
     _data = std::move(new_data);
-    _capacity = std::move(new_capacity);
+    _capacity = new_capacity;
 }
 
 template <typename T>
