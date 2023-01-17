@@ -114,7 +114,6 @@ private:
 };
 
 //out-of-line definitions
-
 template <typename T>
 Vector<T>::Vector(size_t n, const T& default_val) : _size(n), _capacity(n) {
         _data = std::make_unique<T[]>(n);
@@ -150,8 +149,8 @@ Vector<T>& Vector<T>::operator=(const Vector& copy) {
     if (&copy == this) {
         return *this;
     }
-    _size = copy._size;
-    _capacity = copy._capacity;
+    _size = std.move(copy._size);
+    _capacity = std.move(copy._capacity);
     _data = std::make_unique<T[]>(_size);
     std::copy(copy._data.get(), copy._data.get() + _size, _data.get());
     return *this;
@@ -162,9 +161,13 @@ Vector<T>& Vector<T>::operator=(Vector&& move) noexcept {
     if (&move == this) {
         return *this;
     }
-    _size = move._size;
-    _capacity = move._capacity;
-    _data = std::move(move._data);
+    _size = std::move(move._size);
+    _capacity = std::move(move._capacity);
+    //for (int i{0}; i < _size; i++)
+    //    _data[i] = std::move(move._data[i]);
+    //_data = std::move(move._data);
+    _data = std::make_unique<T[]>(_size);
+    std::move(move._data.get(), move._data.get() + _size, _data.get());
     move._size = 0;
     move._capacity = 0;
     return *this;
@@ -172,18 +175,16 @@ Vector<T>& Vector<T>::operator=(Vector&& move) noexcept {
 
 template <typename T>
 void Vector<T>::push_back(const T& value) {
-    if ((_size+1) > _capacity) {
-        Vector<T>::resize(_capacity * growth_factor);
-    }
+    if(_size == _capacity) {
+        resize(calculate_capacity(_size+1));};
     _data[_size++] = value;
 }
 
 template <typename T>
 void Vector<T>::push_back(T&& value) {
-    if ((_size+1) > _capacity) {
-        Vector<T>::resize(_capacity * growth_factor);
-    }
-    _data[_size++] = std::move(value);
+    if(_size == _capacity) {
+        resize(calculate_capacity(_size+1));};
+    _data[_size++] = std::move(value); 
 }
 
 template <typename T>
@@ -213,7 +214,7 @@ void Vector<T>::resize(size_t new_capacity) {
     std::unique_ptr<T[]> new_data = std::make_unique<T[]>(new_capacity);
     std::copy(_data.get(), _data.get() + _size, new_data.get());
     _data = std::move(new_data);
-    _capacity = new_capacity;
+    _capacity = std::move(new_capacity);
 }
 
 template <typename T>
