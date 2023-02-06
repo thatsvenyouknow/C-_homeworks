@@ -22,7 +22,7 @@ void FileMonitor::start(std::chrono::seconds timeout) {
     auto end_time = start_time + timeout;
 
     while (std::chrono::high_resolution_clock::now() < end_time) {
-        for (const auto &entry : std::filesystem::directory_iterator(targetpath)) {
+        for (const auto &entry : std::filesystem::recursive_directory_iterator(targetpath)) {
             auto path = entry.path().string();
             auto last_write_time = std::filesystem::last_write_time(entry);
             if (last_modified.count(path) == 0) {
